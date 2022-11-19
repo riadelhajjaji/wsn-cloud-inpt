@@ -1,0 +1,54 @@
+<h1>React graph vis</h1>
+      <p>
+        <a href='https://github.com/crubier/react-graph-vis'>Github</a> -{' '}
+        <a href='https://www.npmjs.com/package/react-graph-vis'>NPM</a>
+      </p>
+      <p>
+        <a href='https://github.com/crubier/react-graph-vis/tree/master/example/src/index.js'>
+          Source of this page
+        </a>
+      </p>
+      <p>A React component to display beautiful network graphs using vis.js</p>
+      <p>
+        Make sure to visit <a href='http://visjs.org'>visjs.org</a> for more
+        info.
+      </p>
+      <p>This package allows to render network graphs using vis.js.</p>
+      <p>Rendered graphs are scrollable, zoomable, retina ready, dynamic</p>
+      <p>
+        In this example, we manage state with react: on double click we create a
+        new node, and on select we display an alert.
+      </p>
+
+      // const { graph, events } = state;
+      // mine
+
+      // useEffect(() => {
+      //   setTimeout(
+      //     () =>
+      //       setState({
+      //         ...state,
+      //         graph: {
+      //           ...state.graph,
+      //           edges: [
+      //             ...state.graph.edges,
+      //             { from: 1, to: 8 },
+      //             { from: 10, to: 9 },
+      //           ],
+      //         },
+      //       }),
+
+      //     5000
+      //   );
+      // }, []);
+
+      // { id: 1, label: '1', color: '#e04141' },
+        // { id: 2, label: '2', color: '#e09c41' },
+        // { id: 3, label: '3', color: '#e0df41' },
+        // { id: 4, label: '4', color: '#7be041' },
+        // { id: 5, label: '5', color: '#41e0c9' },
+        // { id: 6, label: '6', color: '#e04141' },
+        // { id: 7, label: '7', color: '#e09c41' },
+        // { id: 8, label: '8', color: '#e0df41' },
+        // { id: 9, label: '9', color: '#7be041' },
+        // { id: 10, label: '10', color: '#41e0c9' },
