@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { MAX_ENERGY } from './global';
-import { addWsnNodes, makeClusers, makeEdges, options } from './utilitis';
+import { addWsnNodes, makeEdges, options } from './utilitis';
 import WsnNode from './domains/WsnNode';
 import { select_ch } from './clusterG/select_ch';
 import NodeEnergy from './GRAPHS/NodeEnergy';
@@ -51,7 +51,7 @@ const GraphApp = () => {
   const [currentNode, setCurrentNode] = useState('not selected');
 
   const [updatEnergy, setUpdatEnergy] = useState(false);
-  const [wsnNodes, setWsnNodes] = useState(addWsnNodes(50));
+  const [wsnNodes, setWsnNodes] = useState(addWsnNodes(10));
   const [clusterHeads, setClusterHeads] = useState([
     addWsnNodes(20)[0],
     addWsnNodes(20)[1],
@@ -200,7 +200,7 @@ const GraphApp = () => {
 
                 createNode(x, y);
               }}
-              color='#00ff00'
+              color='primary'
               variant='contained'
 
               // padding={4}

@@ -3,13 +3,6 @@ import { get_min_and_id_of_ch } from './clusterG/join_to_nearest_ch';
 import WsnNode from './domains/WsnNode';
 import { MAX_ENERGY } from './global';
 
-export const makeClusers = (nodes, clusterHeads) => {
-  return [
-    [1, 2, 3, 4, 5],
-    [6, 7, 8, 9],
-  ];
-};
-
 export const makeEdges = (nodes, clusters) => {
   const edges = get_min_and_id_of_ch(nodes, clusters).filter(
     (edge) => edge.from !== edge.to
@@ -113,8 +106,8 @@ export const transmitionEnergy2 = (simulationParams, Ton) => {
 export const transmitionEnergy = (simulationParams, message) => {
   const { energyType } = simulationParams;
   if (energyType) {
-    return transmitionEnergy1(simulationParams, message);
+    return transmitionEnergy1(simulationParams, message) * 9 * Math.random();
   } else {
-    return transmitionEnergy2(simulationParams, message);
+    return transmitionEnergy2(simulationParams, message) * 10 * Math.random();
   }
 };
