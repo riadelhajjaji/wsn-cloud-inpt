@@ -5,8 +5,8 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        {/* <GraphApp /> */}
-        <EnergyParams />
+        <GraphApp />
+        {/* <EnergyParams /> */}
       </header>
     </div>
   );

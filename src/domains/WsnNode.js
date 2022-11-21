@@ -1,3 +1,5 @@
+import { transmitionEnergy, transmitionEnergy1 } from '../utilitis';
+
 const sendMesageEnergy = 100;
 
 export default class WsnNode {
@@ -57,18 +59,22 @@ export default class WsnNode {
   set setEnergies(energies) {
     this.getEnergies = energies;
   }
-  sendPackets(message) {
+  sendPackets(simulationParams, message) {
     // send message
-    this.energy = this.energy - sendMesageEnergy * Math.random();
+    this.energy =
+      this.energy - transmitionEnergy(simulationParams, message.length);
     this.energies = [...this.energies, this.energy];
   }
-  receivePackets(message) {
+  receivePackets(simulationParams, message) {
     // receive
-    this.energy = this.energy - sendMesageEnergy * 10 * Math.random();
+    this.energy =
+      this.energy - transmitionEnergy(simulationParams, message.length);
+
     this.energies = [...this.energies, this.energy];
   }
-  broadcast(message) {
-    this.energy = this.energy - sendMesageEnergy * Math.random();
+  broadcast(simulationParams, message, node) {
+    this.energy =
+      this.energy - transmitionEnergy(simulationParams, message.length);
     this.energies = [...this.energies, this.energy];
   }
 }

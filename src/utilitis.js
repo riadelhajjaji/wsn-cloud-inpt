@@ -30,10 +30,9 @@ export const makeEdges = (nodes, clusters) => {
   //     edges = [...edges, { from: clusters[chi][cli], to: clusterHeads[chi] }];
   //   }
   // }
-  const edges = get_min_and_id_of_ch(nodes, clusters);
-  // .filter(
-  //   (edge) => edge.from !== edge.to
-  // );
+  const edges = get_min_and_id_of_ch(nodes, clusters).filter(
+    (edge) => edge.from !== edge.to
+  );
   return edges;
 };
 
@@ -72,67 +71,69 @@ export const INITIAL_EDGES = [
   { from: 9, to: 2 },
   { from: 10, to: 1 },
 ];
-export const INITIAL_NODES = [
-  new WsnNode(1, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-  new WsnNode(2, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-  new WsnNode(3, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-  new WsnNode(4, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-  new WsnNode(5, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-  new WsnNode(6, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-  new WsnNode(7, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-  new WsnNode(8, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-  new WsnNode(9, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-  new WsnNode(10, MAX_ENERGY, null, null, {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-    color: '#11bb00',
-  }),
-];
-const Tstart = 0;
-const Pstart = 0;
-const PtxElec = 0;
-const R = 0;
+export const addWsnNodes = (n) => {
+  let node = new WsnNode(
+    1,
+    MAX_ENERGY,
+    null,
+    null,
+    {
+      x: Math.floor(Math.random() * 600),
+      y: Math.floor(Math.random() * 600),
+    },
+    '#11bb00'
+  );
+  let sink = new WsnNode(
+    0,
+    MAX_ENERGY,
+    null,
+    null,
+    {
+      x: 0,
+      y: 10,
+    },
+    '#00ff'
+  );
 
-const transmitionEnergy1 = (n, Rcode, Pamp) => {
-  const energy = Tstart * Pstart + (n / (R * Rcode)) * (PtxElec + Pamp);
+  const nodes = [];
+  // nodes.push(sink);
+  for (let id = 1; id < n; id++) {
+    nodes.push(
+      new WsnNode(
+        id,
+        MAX_ENERGY,
+        null,
+        null,
+        {
+          x: Math.floor(Math.random() * 300),
+          y: Math.floor(Math.random() * 300),
+        },
+        '#11bb00'
+      )
+    );
+  }
+  return nodes;
 };
 
-const transmitionEnergy2 = (n, Rcode, Pamp) => {
+export const transmitionEnergy1 = (simulationParams, n) => {
+  // n est le nombre des packets
+  const { Tstart, Pstart, R, Rcode, Pamp, PtxElec } = simulationParams;
   const energy = Tstart * Pstart + (n / (R * Rcode)) * (PtxElec + Pamp);
+  return energy;
+};
+
+export const transmitionEnergy2 = (simulationParams, Ton) => {
+  // Ton est Ton= L/R (taille packet / débit)
+  const { Nt, Pt, Pr, Tst, Pout, Nr, Ron, Rst } = simulationParams;
+  const energy = Nt * (Pt * (Ton + Tst) + Pout * Ton) + Nr * (Pr * (Ron + Rst));
+  return energy;
+};
+
+export const transmitionEnergy = (simulationParams, message) => {
+  const { energyType } = simulationParams;
+  if (energyType) {
+    return transmitionEnergy1(simulationParams, message);
+  } else {
+    return transmitionEnergy2(simulationParams, message);
+  }
 };

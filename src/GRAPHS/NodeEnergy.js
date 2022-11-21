@@ -19,50 +19,7 @@ function NodeEnergy({ wsnNodes }) {
       amt: 2400,
     };
   });
-  // const data = [
-  //   {
-  //     name: 'Node 1',
-  //     uv: 4000,
-  //     energy: 2400,
-  //     amt: 2400,
-  //   },
-  //   {
-  //     name: 'Node 2',
-  //     uv: 3000,
-  //     energy: 1398,
-  //     amt: 2210,
-  //   },
-  //   {
-  //     name: 'Node 3',
-  //     uv: 2000,
-  //     energy: 9800,
-  //     amt: 2290,
-  //   },
-  //   {
-  //     name: 'Node 4',
-  //     uv: 2780,
-  //     energy: 3908,
-  //     amt: 2000,
-  //   },
-  //   {
-  //     name: 'Node 5',
-  //     uv: 1890,
-  //     energy: 4800,
-  //     amt: 2181,
-  //   },
-  //   {
-  //     name: 'Node 6',
-  //     uv: 2390,
-  //     energy: 3800,
-  //     amt: 2500,
-  //   },
-  //   {
-  //     name: 'Node 7',
-  //     uv: 3490,
-  //     energy: 4300,
-  //     amt: 2100,
-  //   },
-  // ];
+
   return (
     <Container style={{ padding: 12 }}>
       <Typography style={{ fontWeight: 'bolder' }}>
