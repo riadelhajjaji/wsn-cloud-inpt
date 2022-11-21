@@ -4,21 +4,10 @@ import WsnNode from './domains/WsnNode';
 import { MAX_ENERGY } from './global';
 
 export const makeClusers = (nodes, clusterHeads) => {
-  // const { clusters } = get_min_and_id_of_ch(nodes, clusterHeads);
-  // const nodesCluster = clusterHeads.map((ch) => {
-  //   clusters.filter((node, index) => {
-  //     if (ch.id === index) return node;
-  //   });
-  // });
-  // console.log(nodesCluster);
   return [
     [1, 2, 3, 4, 5],
     [6, 7, 8, 9],
   ];
-  // nodes = nodes.filter((e) => e !== clusterHeads[0] && e !== clusterHeads[1]);
-  // const nodes1 = nodes.slice(0, Math.floor(nodes.length / 2));
-  // const nodes2 = nodes.slice(Math.floor(nodes.length / 2), nodes.length);
-  // return [nodes1, nodes2];
 };
 
 export const makeEdges = (nodes, clusters) => {
