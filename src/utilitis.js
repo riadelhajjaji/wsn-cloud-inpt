@@ -1,30 +1,39 @@
+// import { get_min_and_id_of_ch } from './clusterG/join_to_nearest_ch';
+import { get_min_and_id_of_ch } from './clusterG/join_to_nearest_ch';
 import WsnNode from './domains/WsnNode';
 import { MAX_ENERGY } from './global';
 
 export const makeClusers = (nodes, clusterHeads) => {
-  nodes = nodes.filter((e) => e !== clusterHeads[0] && e !== clusterHeads[1]);
-  const nodes1 = nodes.slice(0, Math.floor(nodes.length / 2));
-  const nodes2 = nodes.slice(Math.floor(nodes.length / 2), nodes.length);
-  return [nodes1, nodes2];
+  // const { clusters } = get_min_and_id_of_ch(nodes, clusterHeads);
+  // const nodesCluster = clusterHeads.map((ch) => {
+  //   clusters.filter((node, index) => {
+  //     if (ch.id === index) return node;
+  //   });
+  // });
+  // console.log(nodesCluster);
+  return [
+    [1, 2, 3, 4, 5],
+    [6, 7, 8, 9],
+  ];
+  // nodes = nodes.filter((e) => e !== clusterHeads[0] && e !== clusterHeads[1]);
+  // const nodes1 = nodes.slice(0, Math.floor(nodes.length / 2));
+  // const nodes2 = nodes.slice(Math.floor(nodes.length / 2), nodes.length);
+  // return [nodes1, nodes2];
 };
-export const options = {
-  layout: {
-    hierarchical: false,
-  },
-  edges: {
-    color: '#000000',
-  },
-  nodes: {
-    fixed: true,
-  },
-};
-export const makeEdges = (clusterHeads, clusters) => {
-  let edges = [];
-  for (let chi = 0; chi < clusterHeads.length; chi++) {
-    for (let cli = 0; cli < clusters[chi].length; cli++) {
-      edges = [...edges, { from: clusters[chi][cli], to: clusterHeads[chi] }];
-    }
-  }
+
+export const makeEdges = (nodes, clusters) => {
+  // const clusterHeads = clusterHeadss.map((ch) => ch.id);
+
+  // let edges = [];
+  // for (let chi = 0; chi < clusterHeads.length; chi++) {
+  //   for (let cli = 0; cli < clusters[chi].length; cli++) {
+  //     edges = [...edges, { from: clusters[chi][cli], to: clusterHeads[chi] }];
+  //   }
+  // }
+  const edges = get_min_and_id_of_ch(nodes, clusters);
+  // .filter(
+  //   (edge) => edge.from !== edge.to
+  // );
   return edges;
 };
 
@@ -41,6 +50,17 @@ export const randomColor = () => {
   return `#${red}${green}${blue}`;
 };
 
+export const options = {
+  layout: {
+    hierarchical: false,
+  },
+  edges: {
+    color: '#000000',
+  },
+  nodes: {
+    fixed: true,
+  },
+};
 export const INITIAL_EDGES = [
   { from: 1, to: 1 },
   { from: 2, to: 2 },
@@ -104,11 +124,11 @@ export const INITIAL_NODES = [
     color: '#11bb00',
   }),
 ];
-
 const Tstart = 0;
 const Pstart = 0;
 const PtxElec = 0;
 const R = 0;
+
 const transmitionEnergy1 = (n, Rcode, Pamp) => {
   const energy = Tstart * Pstart + (n / (R * Rcode)) * (PtxElec + Pamp);
 };

@@ -1,9 +1,7 @@
 import Graph from 'react-graph-vis';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Button, ButtonGroup, Grid } from '@mui/material';
-import EnergyScatter from './Scatter';
-import NodeEnergy from './NodeEnergy';
-import { MAX_ENERGY, RC_ENERGY, TR_ENERGY } from './global';
+import { MAX_ENERGY } from './global';
 import {
   INITIAL_EDGES,
   INITIAL_NODES,
@@ -12,6 +10,11 @@ import {
   options,
 } from './utilitis';
 import WsnNode from './domains/WsnNode';
+import { select_ch } from './clusterG/select_ch';
+import NodeEnergy from './GRAPHS/NodeEnergy';
+import EnergyVariation from './GRAPHS/EnergyVariation';
+import TotalEnergyGraph from './GRAPHS/TotalEnrgyGraph';
+import EnergyParams from './simulationParams/EnergyParams';
 
 // --------
 // --------
@@ -23,13 +26,17 @@ const GraphApp = () => {
   // -----------------------------------------------------
 
   const [removed, setRemoved] = useState(null);
-  const [reset, setReset] = useState(null);
+  const [reset, setReset] = useState(false);
   const [simulation, setSimulation] = useState(null);
   const [currentNode, setCurrentNode] = useState('not selected');
-  const [clusterHeads, setClusterHeads] = useState([1, 2]);
+  const [clusterHeads, setClusterHeads] = useState([
+    INITIAL_NODES[0],
+    INITIAL_NODES[1],
+  ]);
   const [updatEnergy, setUpdatEnergy] = useState(false);
   const [wsnNodes, setWsnNodes] = useState(INITIAL_NODES);
-  const [wsnEdges, setWsnEdges] = useState(INITIAL_EDGES);
+  const [wsnEdges, setWsnEdges] = useState([]); // [[[[[[[[----------------------]]]]]]]]
+  const [round, setRound] = useState(0);
   // -----------------------------------------------------
   // -----------------------------------------------------
 
@@ -91,38 +98,38 @@ const GraphApp = () => {
   // -----------------------------------------------------
   // -----------------------------------------------------
 
-  const receiveMsg = (msg, node) => {
-    if (simulation) {
-      node.setEnergy = node.getEnergy - RC_ENERGY * 40 * Math.random();
-      if (node.getEnergy < 0) {
-        // setWsnNodes(
-        wsnNodes.filter((_node) => {
-          node.setColor = '#dd0000';
-          return node; // _node.getId !== node.getId;
-        });
-        // );
+  // const receiveMsg = (msg, node) => {
+  //   if (simulation) {
+  //     node.setEnergy = node.getEnergy - RC_ENERGY * 40 * Math.random();
+  //     if (node.getEnergy < 0) {
+  //       // setWsnNodes(
+  //       wsnNodes.filter((_node) => {
+  //         node.setColor = '#dd0000';
+  //         return node; // _node.getId !== node.getId;
+  //       });
+  //       // );
 
-        // setWsnEdges(
-        //   (edge) => (edge.from !== node.getId) & (edge.to !== node.getId)
-        // );
-      } else {
-      }
-    }
-  };
-  const sendMsg = (msg, node) => {
-    node.setEnergy = node.getEnergy - TR_ENERGY;
-    if (node.getEnergy < 0) {
-      setWsnNodes(wsnNodes.filter((_node) => _node.getId !== node.getId));
-    }
-  };
+  //       // setWsnEdges(
+  //       //   (edge) => (edge.from !== node.getId) & (edge.to !== node.getId)
+  //       // );
+  //     } else {
+  //     }
+  //   }
+  // };
+  // const sendMsg = (msg, node) => {
+  //   node.setEnergy = node.getEnergy - TR_ENERGY;
+  //   if (node.getEnergy < 0) {
+  //     setWsnNodes(wsnNodes.filter((_node) => _node.getId !== node.getId));
+  //   }
+  // };
   // useEffect(() => {
   const chooseClusterHeads = useCallback(() => {
-    const items = wsnNodes.map((e) => e.id);
-    const ch1 = items[Math.floor(Math.random() * items.length)];
-    const newItems = items.filter((item) => item !== ch1);
-    const ch2 = newItems[Math.floor(Math.random() * newItems.length)];
-    setClusterHeads([ch1, ch2]);
-    console.log([ch1, ch2]);
+    // const items = wsnNodes.map((e) => e.id);
+    // const ch1 = items[Math.floor(Math.random() * items.length)];
+    // const newItems = items.filter((item) => item !== ch1);
+    // const ch2 = newItems[Math.floor(Math.random() * newItems.length)];
+    setClusterHeads(select_ch(wsnNodes, 0.23, 4));
+    // console.log([ch1, ch2]);
   }, [wsnNodes]);
   // ----------------------------------------
   // ----------------------------------------
@@ -139,8 +146,8 @@ const GraphApp = () => {
   const resetSimulation = () => {
     clearInterval(simulation);
     setSimulation(null);
-    setReset(!reset);
-    setWsnNodes(INITIAL_NODES);
+    setReset(true);
+    setWsnNodes((wsn) => INITIAL_NODES);
     setWsnEdges([]);
     setUpdatEnergy(!updatEnergy);
   };
@@ -151,23 +158,23 @@ const GraphApp = () => {
   // }, []);
 
   useEffect(() => {
-    const clusters = makeClusers(
-      wsnNodes.map((e) => e.id),
-      clusterHeads
-    );
+    const clusters = makeClusers(wsnNodes, clusterHeads);
     // update nodes connections
-    const edges = makeEdges(clusterHeads, clusters);
+    const edges = makeEdges(wsnNodes, clusterHeads);
 
     // update nodes energy every ROUND_DURATION
     setWsnEdges(edges);
 
-    // -----------update energy
-    // wsnNodes.forEach((node) => receiveMsg('Hello', node));
     const tmpWsn = wsnNodes.map((node) => {
       node.receivePackets('hello');
+      // if (node.energy < 0) {
+      //   node.setColor = 'red';
+      // }
+
       return node;
     });
-    setWsnNodes(tmpWsn);
+    setWsnNodes(tmpWsn.filter((node) => node.energy > 0));
+    // console.log(select_ch(wsnEdges, { p: 0.4 }, 4));
     // setWsnNodes(
     //   wsnNodes.filter((node) => {
     //     node.setEnergy = node.getEnergy - 500;
@@ -182,8 +189,9 @@ const GraphApp = () => {
     //  setRemoved(2);
     // setWsnNodes(wsnNodes.filter((_node) => _node.getId !== 4));
 
-    setUpdatEnergy(!updatEnergy);
+    // setUpdatEnergy(!updatEnergy);
     // -------------
+    setRound((round) => round + 1);
   }, [clusterHeads]);
 
   // --------
@@ -211,7 +219,12 @@ const GraphApp = () => {
             <Button onClick={stopSimulation}>stop</Button>
             <Button onClick={resetSimulation}>reset</Button>
           </ButtonGroup>
-          <Box sx={{ fontWeight: 'bold', color: 'blue' }}>{currentNode}</Box>
+          <Box sx={{ fontWeight: 'bold', color: 'blue' }}>Round : {round}</Box>
+          <Box sx={{ fontWeight: 'bold', color: 'blue' }}>
+            {' '}
+            {clusterHeads.length}
+          </Box>
+
           <Button
             onClick={() => {
               const x = Math.floor(Math.random() * 800);
@@ -229,23 +242,33 @@ const GraphApp = () => {
         </Box>
 
         <Grid container style={{}}>
-          <Grid item xs={8} style={{ border: '1px solid #000' }}>
+          <Grid item xs={8} style={{ border: '1px solid #000', height: 500 }}>
             <Graph
               graph={graphParams.graph}
               options={options}
               events={graphParams.events}
             />
+            <Box style={{ padding: 12, marginTop: 20 }}>
+              <EnergyParams />
+            </Box>
           </Grid>
           <Grid item xs={4}>
             <Box style={{ pt: 12 }}>
               <NodeEnergy wsnNodes={wsnNodes} updatEnergy={updatEnergy} />
-              <EnergyScatter
+              <EnergyVariation
                 wsnNodes={wsnNodes}
-                updatEnergy={updatEnergy}
+                // updatEnergy={updatEnergy}
                 reset={reset}
+              />
+
+              <TotalEnergyGraph
+                wsnNodes={wsnNodes}
+                //  updatEnergy={updatEnergy}
+                // reset={reset}
               />
             </Box>
           </Grid>
+          <Grid item xs={4}></Grid>
         </Grid>
       </main>
     </div>

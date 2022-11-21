@@ -14,7 +14,10 @@ export default class WsnNode {
     this.nodes = nodes;
     this.position = position;
     this.color = color;
-    // this.isClusterHead = isClusterHead;
+    this.type = 'n';
+    this.G = 0;
+    this.isClusterHead = false;
+    this.energies = [this.energy];
   }
   set setId(id) {
     this.id = id;
@@ -41,24 +44,31 @@ export default class WsnNode {
   get getPosition() {
     return this.position;
   }
-  // get getIsClusterHead() {
-  //   return this.isClusterHead;
-  // }
-  // set setIsClusterHead(isClusterHead) {
-  //   this.isClusterHead = isClusterHead;
-  // }
+  get getIsClusterHead() {
+    return this.isClusterHead;
+  }
+  set setIsClusterHead(isClusterHead) {
+    this.isClusterHead = isClusterHead;
+  }
+
+  get getEnergies() {
+    return this.getEnergies;
+  }
+  set setEnergies(energies) {
+    this.getEnergies = energies;
+  }
   sendPackets(message) {
     // send message
-    this.energy = this.energy - sendMesageEnergy * 40 * Math.random();
+    this.energy = this.energy - sendMesageEnergy * Math.random();
+    this.energies = [...this.energies, this.energy];
   }
   receivePackets(message) {
     // receive
-    this.energy = this.energy - sendMesageEnergy * 40 * Math.random();
+    this.energy = this.energy - sendMesageEnergy * 10 * Math.random();
+    this.energies = [...this.energies, this.energy];
+  }
+  broadcast(message) {
+    this.energy = this.energy - sendMesageEnergy * Math.random();
+    this.energies = [...this.energies, this.energy];
   }
 }
-
-// void Broadcast():
-// 	for loop (noude in noudes):
-// 		//select clusters
-// 		node.setCH
-// 		noude.recieve(message)

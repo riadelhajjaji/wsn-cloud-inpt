@@ -1,3 +1,4 @@
+import { Container, Typography } from '@mui/material';
 import React from 'react';
 import {
   Bar,
@@ -63,7 +64,10 @@ function NodeEnergy({ wsnNodes }) {
   //   },
   // ];
   return (
-    <div>
+    <Container style={{ padding: 12 }}>
+      <Typography style={{ fontWeight: 'bolder' }}>
+        L'energie residuel de chaque noeud
+      </Typography>
       <BarChart
         width={500}
         height={300}
@@ -83,7 +87,7 @@ function NodeEnergy({ wsnNodes }) {
         <CartesianGrid strokeDasharray='3 3' />
         <Bar dataKey='energy' fill='#8884d8' background={{ fill: '#eee' }} />
       </BarChart>
-    </div>
+    </Container>
   );
 }
 
