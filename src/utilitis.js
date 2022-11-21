@@ -11,14 +11,6 @@ export const makeClusers = (nodes, clusterHeads) => {
 };
 
 export const makeEdges = (nodes, clusters) => {
-  // const clusterHeads = clusterHeadss.map((ch) => ch.id);
-
-  // let edges = [];
-  // for (let chi = 0; chi < clusterHeads.length; chi++) {
-  //   for (let cli = 0; cli < clusters[chi].length; cli++) {
-  //     edges = [...edges, { from: clusters[chi][cli], to: clusterHeads[chi] }];
-  //   }
-  // }
   const edges = get_min_and_id_of_ch(nodes, clusters).filter(
     (edge) => edge.from !== edge.to
   );

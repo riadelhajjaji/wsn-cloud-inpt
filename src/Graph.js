@@ -200,7 +200,7 @@ const GraphApp = () => {
 
                 createNode(x, y);
               }}
-              color='primary'
+              color='#00ff00'
               variant='contained'
 
               // padding={4}
