@@ -19,36 +19,3 @@
         In this example, we manage state with react: on double click we create a
         new node, and on select we display an alert.
       </p>
-
-      // const { graph, events } = state;
-      // mine
-
-      // useEffect(() => {
-      //   setTimeout(
-      //     () =>
-      //       setState({
-      //         ...state,
-      //         graph: {
-      //           ...state.graph,
-      //           edges: [
-      //             ...state.graph.edges,
-      //             { from: 1, to: 8 },
-      //             { from: 10, to: 9 },
-      //           ],
-      //         },
-      //       }),
-
-      //     5000
-      //   );
-      // }, []);
-
-      // { id: 1, label: '1', color: '#e04141' },
-        // { id: 2, label: '2', color: '#e09c41' },
-        // { id: 3, label: '3', color: '#e0df41' },
-        // { id: 4, label: '4', color: '#7be041' },
-        // { id: 5, label: '5', color: '#41e0c9' },
-        // { id: 6, label: '6', color: '#e04141' },
-        // { id: 7, label: '7', color: '#e09c41' },
-        // { id: 8, label: '8', color: '#e0df41' },
-        // { id: 9, label: '9', color: '#7be041' },
-        // { id: 10, label: '10', color: '#41e0c9' },

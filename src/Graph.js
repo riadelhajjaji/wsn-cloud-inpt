@@ -11,10 +11,10 @@ import {
 import { MAX_ENERGY } from './global';
 import { addWsnNodes, makeEdges, options } from './utilitis';
 import WsnNode from './domains/WsnNode';
-import { select_ch } from './clusterG/select_ch';
-import NodeEnergy from './GRAPHS/NodeEnergy';
-import EnergyVariation from './GRAPHS/EnergyVariation';
-import TotalEnergyGraph from './GRAPHS/TotalEnrgyGraph';
+import { select_ch } from './clustering/select_ch';
+import NodeEnergy from './energyGraphs/NodeEnergy';
+import EnergyVariation from './energyGraphs/EnergyVariation';
+import TotalEnergyGraph from './energyGraphs/TotalEnrgyGraph';
 import EnergyParams from './simulationParams/EnergyParams';
 
 // --------

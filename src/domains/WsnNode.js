@@ -1,4 +1,4 @@
-import { transmitionEnergy, transmitionEnergy1 } from '../utilitis';
+import { transmitionEnergy } from '../utilitis';
 
 export default class WsnNode {
   constructor(id, energy, nodes, clusterHead, position, color) {
@@ -13,6 +13,26 @@ export default class WsnNode {
     this.isClusterHead = false;
     this.energies = [this.energy];
   }
+
+  sendPackets(simulationParams, message) {
+    // send message
+    this.energy =
+      this.energy - transmitionEnergy(simulationParams, message.length);
+    this.energies = [...this.energies, this.energy];
+  }
+  receivePackets(simulationParams, message) {
+    // receive
+    this.energy =
+      this.energy - transmitionEnergy(simulationParams, message.length);
+
+    this.energies = [...this.energies, this.energy];
+  }
+  broadcast(simulationParams, message, node) {
+    this.energy =
+      this.energy - transmitionEnergy(simulationParams, message.length);
+    this.energies = [...this.energies, this.energy];
+  }
+
   set setId(id) {
     this.id = id;
   }
@@ -50,23 +70,5 @@ export default class WsnNode {
   }
   set setEnergies(energies) {
     this.getEnergies = energies;
-  }
-  sendPackets(simulationParams, message) {
-    // send message
-    this.energy =
-      this.energy - transmitionEnergy(simulationParams, message.length);
-    this.energies = [...this.energies, this.energy];
-  }
-  receivePackets(simulationParams, message) {
-    // receive
-    this.energy =
-      this.energy - transmitionEnergy(simulationParams, message.length);
-
-    this.energies = [...this.energies, this.energy];
-  }
-  broadcast(simulationParams, message, node) {
-    this.energy =
-      this.energy - transmitionEnergy(simulationParams, message.length);
-    this.energies = [...this.energies, this.energy];
   }
 }

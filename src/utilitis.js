@@ -1,5 +1,4 @@
-// import { get_min_and_id_of_ch } from './clusterG/join_to_nearest_ch';
-import { get_min_and_id_of_ch } from './clusterG/join_to_nearest_ch';
+import { get_min_and_id_of_ch } from './clustering/join_to_nearest_ch';
 import WsnNode from './domains/WsnNode';
 import { MAX_ENERGY } from './global';
 
