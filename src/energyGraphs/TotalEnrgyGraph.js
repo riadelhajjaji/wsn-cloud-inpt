@@ -11,11 +11,10 @@ import {
   Legend,
 } from 'recharts';
 import { ROUND_DURATION } from '../global';
-import { randomColor } from '../utilitis';
 
 const TotalEnergyGraph = ({ wsnNodes }) => {
   const [energies, setEnergies] = useState([]);
-  const [totalEnergyData, setTotalEnergyData] = useState([{}]);
+  const [totalEnergyData, setTotalEnergyData] = useState([]);
 
   useEffect(() => {
     const matriceOfEnergies = wsnNodes.map((node) => node.energies);
@@ -39,7 +38,6 @@ const TotalEnergyGraph = ({ wsnNodes }) => {
     );
     console.log(energies);
   }, [wsnNodes]);
-  //
 
   return (
     <Container>
@@ -66,7 +64,7 @@ const TotalEnergyGraph = ({ wsnNodes }) => {
         <Scatter
           name='Total Energy'
           data={totalEnergyData}
-          fill={randomColor()}
+          fill='red'
           line
           shape='none'
         />

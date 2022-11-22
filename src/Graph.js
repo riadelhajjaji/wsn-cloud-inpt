@@ -49,6 +49,7 @@ const GraphApp = () => {
   const [reset, setReset] = useState(false);
   const [simulation, setSimulation] = useState(null);
   const [currentNode, setCurrentNode] = useState('not selected');
+  const [addNodeNumber, setAddNodeNumber] = useState(1);
 
   const [updatEnergy, setUpdatEnergy] = useState(false);
   const [wsnNodes, setWsnNodes] = useState(addWsnNodes(10));
@@ -70,7 +71,7 @@ const GraphApp = () => {
           return {
             id: node.id,
             label: `${node.id}`,
-            color: node.color,
+            color: node.type === 'c' ? '#f00' : '#0f0',
             ...node.position,
           };
         }),
@@ -89,20 +90,25 @@ const GraphApp = () => {
     },
   };
   // );
-  const createNode = (x, y) => {
+  const createNode = () => {
     const id = wsnNodes.length + 1;
-
-    setWsnNodes([
-      ...wsnNodes,
-      new WsnNode(id, MAX_ENERGY, null, null, {
-        x,
-        y,
-      }),
-    ]);
+    let listNodes = [];
+    for (let i = 0; i < addNodeNumber; i++) {
+      const x = Math.floor(Math.random() * 800);
+      const y = Math.floor(Math.random() * 800);
+      listNodes.push(
+        new WsnNode(id + i, MAX_ENERGY, null, null, {
+          x,
+          y,
+        })
+      );
+    }
+    setWsnNodes([...wsnNodes, ...listNodes]);
   };
 
   const chooseClusterHeads = useCallback(() => {
     setClusterHeads(select_ch(wsnNodes, simulationParams.p, round));
+    console.log('p==', simulationParams.p);
   }, [wsnNodes]);
   // ----------------------------------------
   // ----------------------------------------
@@ -187,16 +193,15 @@ const GraphApp = () => {
           >
             <TextField
               name='add node'
+              value={addNodeNumber}
+              onChange={(e) => setAddNodeNumber(e.target.value)}
               variant='outlined'
               type='number'
               sx={{ width: 100 }}
             />{' '}
             <Button
               onClick={() => {
-                const x = Math.floor(Math.random() * 800);
-                const y = Math.floor(Math.random() * 800);
-
-                createNode(x, y);
+                createNode();
               }}
               color='primary'
               variant='contained'

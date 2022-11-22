@@ -10,23 +10,26 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
-import { Label } from 'recharts';
+import { useCallback, useState } from 'react';
 
 const EnergyParams = ({ simulationParams, setSimulationParams }) => {
   const [localValues, setLocalValues] = useState(simulationParams);
 
-  const handleChangeValue = (e) => {
-    const { name, value } = e.target;
-    setLocalValues({
-      ...localValues,
-      [name]: value,
-    });
-    console.log(simulationParams);
-  };
-  const handleSubmitValues = () => {
-    setSimulationParams(localValues);
-  };
+  const handleChangeValue = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setLocalValues({
+        ...localValues,
+        [name]: value,
+      });
+      console.log(simulationParams);
+    },
+    [localValues, setLocalValues]
+  );
+
+  const handleSubmitValues = useCallback(() => {
+    setSimulationParams({ ...simulationParams, ...localValues });
+  }, [setSimulationParams]);
   return (
     <Container style={{ backgroundColor: '#eee', padding: 12 }}>
       <Box sx={{ display: 'flex', p: 5, gap: 2 }}>

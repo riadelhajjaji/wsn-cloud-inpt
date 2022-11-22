@@ -6,8 +6,8 @@ export function select_ch(sensors, p, round_number) {
   var CH = [];
   sensors.forEach((sensor) => {
     // let sensor = sensors[s];
-    // if (parseInt(sensor.enegy) > 0) {
-    // && sensor.G <= 0
+    // if (sensor.enegy > 0 && sensor.G <= 0) {
+    //
     // Election of Cluster Heads
     let temp_rand = Math.random();
 
