@@ -80,7 +80,7 @@ const EnergyVariation = ({ wsnNodes, updatEnergy, removed, reset }) => {
         {data.map((nodeData, index) => (
           <Scatter
             key={index}
-            name={false}
+            name={index + 1}
             data={nodeData}
             fill={randomColor()}
             line

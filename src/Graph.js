@@ -131,11 +131,9 @@ const GraphApp = () => {
   // }, []);
 
   useEffect(() => {
-    // const clusters = makeClusers(wsnNodes, clusterHeads);
-    // update nodes connections
     const edges = makeEdges(wsnNodes, clusterHeads);
 
-    // update nodes energy every ROUND_DURATION
+    //
     setWsnEdges(edges);
 
     clusterHeads.forEach((ch) => {

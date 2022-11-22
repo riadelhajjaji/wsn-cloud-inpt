@@ -1,14 +1,6 @@
 import { transmitionEnergy, transmitionEnergy1 } from '../utilitis';
 
-const sendMesageEnergy = 100;
-
 export default class WsnNode {
-  // id:number;
-  // energy:number;
-  // position?:positionType;
-  // clusterHead:null|number;
-  // nodes:null|WsnNode[]
-  // T?: number;
   constructor(id, energy, nodes, clusterHead, position, color) {
     this.id = id;
     this.energy = energy;
